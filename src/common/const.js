@@ -1,0 +1,1 @@
+export const BACKTOP_ALTITUDE = 1000;

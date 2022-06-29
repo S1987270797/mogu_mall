@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const obj = { // 这个相当于给vue组件传入的 data属性里面的值
+            message: 'hello',
+            name: 'Red'
+        }
+        Object.keys(obj).forEach(key => {
+            let value = obj[key]
+            console.log(value);
+            // 原来定义的方法是直接传入值的定义方法，不好监听改变，所以我们自己拿到之后再给他用Object.defineProperty()重新定义一下
+            Object.defineProperty(obj, key, { // 拿到原来的key对他重新赋值, 用这个方法赋值就可以监听数据的改变与获取.
+                // 每次改变这个值和获取这个值都会执行里面的回调函数
+                set(newValue) {
+                    console.log('监听key改变' + key);
+                    value = newValue;
+                    // 3.当值被改变是 通知所有的粉丝一起改变
+                    // dep.notify(newValue);
+                },
+                get() {
+                    console.log('获取了' + key + '对应的值');
+                    // 1.const w1 = new Watcher('张三'); // 谁用我了,我就将他作为我的一个粉丝
+                    // 2.dep.addSub(w1);  // 存放在被依赖的明星身上
+                    return value
+                }
+            })
+        })
+        // obj.name = 'andy';
+
+        // 发布者订阅模式
+        class Dep { // 类 用于存储所有对我属性有依赖的人
+            constructor() {
+                this.subscribes = [];
+            }
+            addSub(watcher) {
+                this.subscribes.push(watcher)
+            }
+            notify(newValue) {
+                this.subscribes.forEach(item => {
+                    item.update(newValue);
+                })
+            }
+        }
+        class Watcher {
+            constructor(name) {
+                this.name = name;
+            }
+            update(newValue) {
+                // 用newValue替换原来的值
+                console.log(this.name + '发生update');
+            }
+        }
+        const dep = new Dep(); // 被依赖的数据
+        // data每有一个数据 就会通过Object.defineProperty里面的set方法里面new 一个 dep实例, 只要修改dep实例,所有订阅这个dep实例的watcher都会改变.
+
+        const w1 = new Watcher('张三'); // dom中每有一个{{message} 就会创建一个watcher
+        dep.addSub(w1)
+        // const w2 = new Watcher('李四');
+        // dep.addSub(w2)
+        // const w3 = new Watcher('王五');
+        // dep.addSub(w3)
+
+        dep.notify();
+        /*
+        执行顺序
+        1. 通过Dep构造函数创建dep实例,里面有addSub用于储存所有订阅我的粉丝, 还有notify用于通知我的所有粉丝.
+        2. 通过Watcher构造函数创建w1粉丝, 需要传入粉丝的名字, 每个粉丝都有自己update可以用来获取明星的最新消息,改变自己知道的信息.
+        3. 在Object.defineProperty的get函数的地方每次有人调用我了,就用Watcher创建一个watcher将他储存起来,并且传入一个名字来来区分他,并且调用dep.addSub(w1)来成为他的粉丝.
+         */
+    </script>
+</body>
+
+</html>

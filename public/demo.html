@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 50px;
+        }
+
+        .container {
+            display: flex;
+            width: 750px;
+            background-color: pink;
+            flex-wrap: wrap;
+        }
+
+        .container div {
+            width: 120px;
+            height: 120px;
+            background-color: skyblue;
+            border: 0.02rem solid #ccc;
+        }
+
+        /* 1. 超小屏幕下 小于768 布局容器的宽度为 100% */
+        @media screen and (max-width: 767px) {
+            .container {
+                width: 100%;
+            }
+        }
+
+        /* 2.小屏幕下 大于等于768 布局容器改为 750px */
+        @media screen and (min-width: 768px) {
+            .container {
+                width: 750px;
+            }
+        }
+
+        /* 3. 中等屏幕下 大于等于992px 布局容器修改为970px */
+        @media screen and (min-width: 992px) {
+            .container {
+                width: 970px;
+            }
+        }
+
+        /* 4.大屏幕下 大于等于1200 布局容器修改为 1170 */
+        @media screen and (min-width: 1200px) {
+            .container {
+                width: 1200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+        <div>9</div>
+        <div>10</div>
+    </div>
+    <script>
+        // const obj = Object();
+        // console.log(obj);
+        /* const arr = [
+            ['a', 'b', 'c'],
+            ['e', 'd', 'f'],
+        ];
+
+        for (item of arr) {
+            console.log(item);
+            for (iitem of item) {
+                console.log(iitem);
+            }
+        } */
+
+        // let str = '132/Home';
+        // console.log(str.indexOf('iome'));
+
+        /* function fn(...args) {
+            console.log(args[0]);
+        }
+        fn(1, 2, 3) */
+        /* 
+                const arr = [1, 2, 3, 66, 5, 6, 7, 8, 9]
+                console.log(arr.find(item => item > 5)); */
+
+        const obj = 0
+        console.log(!obj);
+    </script>
+</body>
+
+</html>
